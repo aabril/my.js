@@ -2,7 +2,7 @@
 
 ## What is this?
 
-This is yet another JS library in the style of	Angular.js, Ember.js, and Backbone.js.
+This is yet another JS library in the style of Angular.js, Ember.js, and Backbone.js.
 
 ## Why should you use it?
 
@@ -19,7 +19,7 @@ The minimized version is 5K (not including jQuery.js and mustache.js).
 
 ## What does it depend on?
 
-The dynamic templates of my.js depends on jQuery.js and mustache.js.
+The dynamic templates of `my.js` depends on jQuery.js and mustache.js.
 The rest of the code does not depend on anything.
 
 
@@ -97,21 +97,20 @@ A model is just an object wrapped in model, for example:
 
     var obj = my.model({a:1, b:function(){return this.a+1;}});
 
-You can register a function to be called when the obj changes:
+You can register a function to be called when the object changes:
 
     obj.onChangeCall(function(name,oldval,newval){alert(name+'='+newval);});
 
-Or you can bind the model to a template:
+You can also bind the model to a template:
 
     <div id="mytemplate">
         <input my-bind="a" value="{{a}}"/> + 1 = <span>{{b}}</span>
     </div>
 
-With this JS code:
+using this JS code:
 
     obj.linkToTemplate('#mytemplate');  
 
-The the input changes, a changes, b is recomputed, the template is refreshed!
-Templates support the full mustache.js syntax. Learn more: https://github.com/janl/mustache.js
+When the input changes, `a` changes, `b` is recomputed, the template is refreshed! Templates support the full mustache.js syntax. Learn more: https://github.com/janl/mustache.js
 
 
