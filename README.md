@@ -2,21 +2,30 @@
 
 ## What is this?
 
-This is yet another JS library in the style of Angular.js, Ember.js, and Backbone.js.
+This is yet another JS library in the style of	Angular.js, Ember.js, and Backbone.js.
 
 ## Why should you use it?
 
-I am not saying you should. 
+I am not saying you should.
 
 ## Why did I write it?
 
 Because I wanted something simpler than the alternatives that provides 
 the functionalities I needed and no more.
 
+## How big is it?
+
+The minimized version is 5K (not including jQuery.js and mustache.js).
+
 ## What does it depend on?
 
-The dynamic templates of my.js depends on jQuery and mustache.js.
-The rest of the code does not depend on any third party library.
+The dynamic templates of my.js depends on jQuery.js and mustache.js.
+The rest of the code does not depend on anything.
+
+
+## Does it work well?
+
+Trust no one! Can you help with testing?
 
 ## How do you use it?
 
@@ -82,7 +91,7 @@ Learn more: https://github.com/kriskowal/q
    my.register('kick it', function(msg) { alert(msg); });
    my.sleep(1000).then(function(){ my.trigger('kick it','Oh My!'); });
 
-### Dyanamic Templates
+### Dynamic Templates
 
 A model is just an object wrapped in model, for example:
 
@@ -90,7 +99,7 @@ A model is just an object wrapped in model, for example:
 
 You can register a function to be called when the obj changes:
 
-   obj.onChangeCall(function(name,oldvale,newval){alert(name+'='+newval);});
+   obj.onChangeCall(function(name,oldval,newval){alert(name+'='+newval);});
 
 Or you can bind the model to a template:
 

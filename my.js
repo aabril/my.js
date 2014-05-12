@@ -34,7 +34,7 @@
   my.sleep(1000).then(function(){alert('Oh My!');});
 
   var obj = my.model({a:1, b:function(){return this.a+1;}});
-  obj.onChangeCall(function(name,oldvale,newval){alert(name+'='+newval);});
+  obj.onChangeCall(function(name,oldval,newval){alert(name+'='+newval);});
   // <div id="mytemplate">
   //   <input my-bind="a" value="{{a}}"/> + 1 = <span>{{b}}</span>
   // </div>
