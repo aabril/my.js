@@ -13,6 +13,7 @@
   " abc ".rtrim()                      // -> " abc"      
   "{0}{1}{2}".format(['a','b','c'])    // -> "abc"
   "abc".escapeRegExp()                 // -> "abc"
+  "a&c".escapeHTML()                   // -> "a&amp;c"
   "abc".startsWith('a')                // -> true
   "abc".endsWith('c')                  // -> true
   "-".times(4)                         // -> "----" 
@@ -69,6 +70,10 @@ String.prototype.format = function(args) {
 };
 String.prototype.escapeRegExp = function() {
     return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+};
+String.prototype.escapeHTML = function() {
+    var chr = { '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' };
+    return this.replace(/[\"&<>]/g, function (a) { return chr[a]; });
 };
 String.prototype.startsWith = function(s) {
     return this.substring(0,s.length)==s;
@@ -198,10 +203,14 @@ my = (function(){
 			this.attrtibutes = attributes;;
 			this.toString = function() {	    
 			    var a = '';
-			    for(var k in attributes) 
-				a = '{0} {1}="{2}"'.format([a,k,attributes[k]]);
+			    for(var k in attributes) {
+				var b = (''+attributes[k]).escapeHTML();
+				a = '{0} {1}="{2}"'.format([a,k,b]);
+			    }
 			    if('img br link'.split(' ').indexOf(name)<0) {
 				var b = components.map(function(x){
+					if(typeof x == 'string')
+					    return x.escapeHTML();
 					return x.toString();
 				    }).join('');
 				return '<{0}{1}>{2}</{0}>'.format([name,a,b]);
@@ -306,7 +315,7 @@ my = (function(){
 			});
 		}
 	    }
-	    obj.onChangeCall = function(fn) { 		
+	    obj.onChangeCall = function(fn) { 		                
 		my.register(name, function(p){fn.apply(null,p);}); 
 	    };
 	    obj.linkToTemplate = function(selector) { 

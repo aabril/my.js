@@ -44,6 +44,7 @@ Look into the index.html example.
     " abc ".rtrim()                      // -> " abc"      
     "{0}{1}{2}".format(['a','b','c'])    // -> "abc"
     "abc".escapeRegExp()                 // -> "abc"
+    "a&c".escapeHTML()                 // -> "a&amp;c"
     "abc".startsWith('a')                // -> true
     "abc".endsWith('c')                  // -> true
     "-".times(4)                         // -> "----" 
@@ -73,6 +74,8 @@ In the style of web2py helpers:
     var SPAN = my.tag('span',{class:'x',id:'y'});
     var content = DIV('hello',' ',SPAN('world'));
     jQuery('#target').html(content.toString())
+
+(notice the text is always automatically escaped).
 
 Try it: http://jsfiddle.net/WF9ny/
 
