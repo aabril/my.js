@@ -219,7 +219,7 @@ my = (function(){
 	    if(name in my.events) my.events[name].push([fn,once]);
 	    else my.events[name] = [[fn,once]];	    
 	};
-	my.go = function(name,obj) {
+	my.now = function(name,obj) {
 	    if(name in my.events)
 		my.events[name] = my.events[name].filter(function(item){
 			item[0](obj);
@@ -244,12 +244,12 @@ my = (function(){
 		this.resolve = function(obj) {
 		    this.resolved = true;
 		    this.obj = obj;
-		    my.go(this.code+':resolved',obj);
+		    my.now(this.code+':resolved',obj);
 		};
 		this.reject = function(obj) {
 		    this.rejected = true;
 		    this.obj = obj;
-		    my.go(this.code+':rejected',obj);
+		    my.now(this.code+':rejected',obj);
 		};
 		this.then = function(f,g) {
 		    f = f || function(obj){ return obj; };
@@ -300,7 +300,7 @@ my = (function(){
 		if(!isFunction(obj[key])) {
 		    obj.watch(key,function(key, oldval, newval) {
 			    if(newval!=oldval) {
-				my.go(name, [key, oldval, newval]);
+				my.now(name, [key, oldval, newval]);
 			    }
 			    return newval;
 			});
