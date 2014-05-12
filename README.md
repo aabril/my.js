@@ -44,6 +44,7 @@ Look into the index.html example.
     " abc ".rtrim()                      // -> " abc"      
     "{0}{1}{2}".format(['a','b','c'])    // -> "abc"
     "abc".escapeRegExp()                 // -> "abc"
+    "a&c".escapeHTML()                 // -> "a&amp;c"
     "abc".startsWith('a')                // -> true
     "abc".endsWith('c')                  // -> true
     "-".times(4)                         // -> "----" 
@@ -74,6 +75,8 @@ In the style of web2py helpers:
     var content = DIV('hello',' ',SPAN('world'));
     jQuery('#target').html(content.toString())
 
+(notice the text is always automatically escaped).
+
 Try it: http://jsfiddle.net/WF9ny/
 
 ### Promises like Q.js
@@ -92,8 +95,8 @@ Try it: http://jsfiddle.net/JJhLt/
 
 ### Generic events
 
-    my.when('kick it', function(msg) { alert(msg); });
-    my.sleep(1000).then(function(){ my.now('kick it','Oh My!'); });
+    my.register('kick it', function(msg) { alert(msg); });
+    my.sleep(1000).then(function(){ my.trigger('kick it','Oh My!'); });
 
 Try it: http://jsfiddle.net/TgNs6/
 
