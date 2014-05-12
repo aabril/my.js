@@ -58,6 +58,8 @@ Look into the index.html example.
     my.values({a:'b',c:'d'})             // -> ['c', 'd']
     my.items({a:'b',c:'d'})              // -> [['a','b'], ['c','d']]
     my.clone({a:'b',c:'d'})              // -> {a:'b',c:'d'}
+    my.isUndefined(obj)                  // -> true, false
+    my.isFunction(obj)                   // -> true, false
 
 ### Throttle and debounce methods:
 

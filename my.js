@@ -25,6 +25,8 @@
   my.values({a:'b',c:'d'})             // -> ['c', 'd']
   my.items({a:'b',c:'d'})              // -> [['a','b'], ['c','d']]
   my.clone({a:'b',c:'d'})              // -> {a:'b',c:'d'}
+  my.isUndefined(obj)                  // -> true, false
+  my.isFunction(obj)                   // -> true, false
 
   my.debounce(function(){..,},250)        
   my.throttle(function(){...},250) 
@@ -264,7 +266,7 @@ my = (function(){
 	    this.then = function(f,g) {
 		f = f || function(obj){ return obj; };
 		if(g=='always') g=f;
-		g = g || function(e){ throw e; };
+		g = g || function(err){ throw err; };
 		if(this.resolved) {
 		    return my.run(f,this.obj);
 		} else if(this.rejected) {
@@ -274,15 +276,15 @@ my = (function(){
 		    my.register(this.code+':resolved', function(obj) {
 			    try {
 				d.resolve(f(obj));
-			    } catch(e) {
-				d.reject(e);
+			    } catch(err) {
+				d.reject(err);
 			    }
 			});
 		    my.register(this.code+':rejected', function(obj) {
 			    try {
 				d.resolve(g(obj));
-			    } catch(e) {
-				d.reject(e);
+			    } catch(err) {
+				d.reject(err);
 			    }
 			});
 		    return d;
@@ -295,8 +297,8 @@ my = (function(){
 		var ret = fn(obj);
 		if(my.isFunction(ret.then)) return ret;
 		d.resolve(ret); 		
-	    } catch(e) { 
-		d.reject(e); 
+	    } catch(err) { 
+		d.reject(err); 
 	    }
 	    return d;
 	};
