@@ -15,7 +15,7 @@ the functionalities I needed and no more.
 
 ## How big is it?
 
-The minimized version is 5K (not including jQuery.js and mustache.js).
+The minimized version is ~6K (not including jQuery.js and mustache.js).
 
 ## What does it depend on?
 
