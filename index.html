@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Oh My!</title>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+  </head>
+  <body>
+    <div id="template">
+      <table>
+	<tr>
+	  <td>Name</td>
+	  <td><input my-bind="name" name="name" value="{{name}}"/></td>
+	</tr>
+	<tr>
+	  <td>Unit Cost</td>
+	  <td><input my-bind="amount" name="amount" value="{{amount}}"/></td>
+	</tr>
+	<tr>
+	  <td>Quantity Cost</td>
+	  <td><input my-bind="qty" name="amount" value="{{qty}}"/></td>
+	</tr>
+      </table>
+      <blockquote>
+	{{name}} spends ${{amount}}x{{qty}} = ${{total}}
+      </blockquote>
+    </div>
+    <h2>Example of event binding</h2>
+    <div id="main"></div>    
+    <h2>The JS source code</h2>
+    <pre id="source"></pre>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="mustache.js"></script>    
+    <script src="my.js"></script>    
+    <script>
+      jQuery(function(){
+         // Example of my template usage
+         var obj = my.model({name:'Joe', amount:100, qty:3,
+                             total:function(){return this.amount*this.qty;}});
+         obj.linkToTemplate('#template');
+
+         // Example of my HTML helpers
+         obj.onChangeCall(function(key,oldval,newval){
+             var div = my.tag('div',{style:'color:red'});
+             var content = div(new Date(),' ',key,' changed to ',newval);
+             jQuery('#main').append(content.toString()); 
+         });
+ 
+         // Example of my events and promises
+         my.register('oh my!',function(){ jQuery('#main').append('Oh My!'); });
+         my.sleep(3000).then(function(){ my.trigger('oh my!'); });
+      });
+    </script>
+    <script>
+      jQuery('#source').text(jQuery('script').last().prev().text());
+    </script>
+  </body>
+</html>
