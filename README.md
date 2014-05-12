@@ -74,6 +74,8 @@ In the style of web2py helpers:
     var content = DIV('hello',' ',SPAN('world'));
     jQuery('#target').html(content.toString())
 
+Try it: http://jsfiddle.net/WF9ny/
+
 ### Promises like Q.js
 
 Learn more: https://github.com/kriskowal/q
@@ -86,10 +88,14 @@ Learn more: https://github.com/kriskowal/q
 
     my.sleep(1000).then(function() { alert('Oh My!'); });
 
+Try it: http://jsfiddle.net/JJhLt/
+
 ### Generic events
 
     my.register('kick it', function(msg) { alert(msg); });
     my.sleep(1000).then(function(){ my.trigger('kick it','Oh My!'); });
+
+Try it: http://jsfiddle.net/TgNs6/
 
 ### Dynamic Templates
 
@@ -113,4 +119,4 @@ using this JS code:
 
 When the input changes, `a` changes, `b` is recomputed, the template is refreshed! Templates support the full mustache.js syntax. Learn more: https://github.com/janl/mustache.js
 
-
+Try it: http://jsfiddle.net/96zfW/
