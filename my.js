@@ -202,6 +202,7 @@ my = (function(){
 			this.components = components;
 			this.attrtibutes = attributes;;
 			this.toString = function() {	    
+			    if(name == null) return components.join('');
 			    var a = '';
 			    for(var k in attributes) {
 				var b = (''+attributes[k]).escapeHTML();
