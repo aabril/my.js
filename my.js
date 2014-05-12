@@ -215,11 +215,11 @@ my = (function(){
 	    return _tag;
 	};
 	my.events = {};
-	my.register = function(name,fn,once) {
+	my.when = function(name,fn,once) {
 	    if(name in my.events) my.events[name].push([fn,once]);
 	    else my.events[name] = [[fn,once]];	    
 	};
-	my.trigger = function(name,obj) {
+	my.go = function(name,obj) {
 	    if(name in my.events)
 		my.events[name] = my.events[name].filter(function(item){
 			item[0](obj);
@@ -244,12 +244,12 @@ my = (function(){
 		this.resolve = function(obj) {
 		    this.resolved = true;
 		    this.obj = obj;
-		    my.trigger(this.code+':resolved',obj);
+		    my.go(this.code+':resolved',obj);
 		};
 		this.reject = function(obj) {
 		    this.rejected = true;
 		    this.obj = obj;
-		    my.trigger(this.code+':rejected',obj);
+		    my.go(this.code+':rejected',obj);
 		};
 		this.then = function(f,g) {
 		    f = f || function(obj){ return obj; };
@@ -261,14 +261,14 @@ my = (function(){
 			return my.run(g,this.obj); 
 		    } else {
 			var d = my.promise(); 
-			my.register(this.code+':resolved', function(obj) {
+			my.when(this.code+':resolved', function(obj) {
 				try {
 				    d.resolve(f(obj));
 				} catch(e) {
 				    d.reject(e);
 				}
 			    });
-			my.register(this.code+':rejected', function(obj) {
+			my.when(this.code+':rejected', function(obj) {
                                 try {
                                     d.resolve(g(obj));
                                 } catch(e) {
@@ -300,14 +300,14 @@ my = (function(){
 		if(!isFunction(obj[key])) {
 		    obj.watch(key,function(key, oldval, newval) {
 			    if(newval!=oldval) {
-				my.trigger(name, [key, oldval, newval]);
+				my.go(name, [key, oldval, newval]);
 			    }
 			    return newval;
 			});
 		}
 	    }
 	    obj.onChangeCall = function(fn) { 		
-		my.register(name, function(p){fn.apply(null,p);}); 
+		my.when(name, function(p){fn.apply(null,p);}); 
 	    };
 	    obj.linkToTemplate = function(selector) { 
 		var div = jQuery(selector);

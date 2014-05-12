@@ -92,8 +92,8 @@ Try it: http://jsfiddle.net/JJhLt/
 
 ### Generic events
 
-    my.register('kick it', function(msg) { alert(msg); });
-    my.sleep(1000).then(function(){ my.trigger('kick it','Oh My!'); });
+    my.when('kick it', function(msg) { alert(msg); });
+    my.sleep(1000).then(function(){ my.go('kick it','Oh My!'); });
 
 Try it: http://jsfiddle.net/TgNs6/
 

@@ -54,8 +54,8 @@
          });
  
          // Example of my events and promises
-         my.register('oh my!',function(){ jQuery('#main').append('Oh My!'); });
-         my.sleep(3000).then(function(){ my.trigger('oh my!'); });
+         my.when('kick it',function(msg){ jQuery('#main').append(msg); });
+         my.sleep(3000).then(function(){ my.go('kick it','oh my!'); });
       });
     </script>
     <script>
