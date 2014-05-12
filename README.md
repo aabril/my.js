@@ -44,7 +44,7 @@ Look into the index.html example.
     " abc ".rtrim()                      // -> " abc"      
     "{0}{1}{2}".format(['a','b','c'])    // -> "abc"
     "abc".escapeRegExp()                 // -> "abc"
-    "a&c".escapeHTML()                 // -> "a&amp;c"
+    "a&c".escapeHTML()                   // -> "a&amp;c"
     "abc".startsWith('a')                // -> true
     "abc".endsWith('c')                  // -> true
     "-".times(4)                         // -> "----" 
