@@ -78,13 +78,13 @@ In the style of web2py helpers:
 
 Learn more: https://github.com/kriskowal/q
 
-    my.run(function() { return 'Oh My!'; })
+    my.run(function()     { return 'Oh My!';        })
       .then(function(msg) { alert(msg); return msg; })
-      .then(function(msg) { throw msg; })
-      .then(function(msg) { alert('success'); },
-            function(e) { alert('error:'+e); }); 
+      .then(function(msg) { throw msg;              })
+      .then(function(msg) { alert('success:'+msg);  },
+            function(err) { alert('error:'+err);    }); 
 
-    my.sleep(1000).then(function(){alert('Oh My!');});
+    my.sleep(1000).then(function() { alert('Oh My!'); });
 
 ### Generic events
 
