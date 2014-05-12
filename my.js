@@ -65,7 +65,7 @@ String.prototype.rtrim = function() {
 };
 String.prototype.format = function(args) {
     return this.replace(/{(\d+)}/g, function(match, number) { 
-	    return (args[number]!=undefined)?args[number]:match;
+	    return (!(typeof args[number]==='undefined'))?args[number]:match;
 	});
 };
 String.prototype.escapeRegExp = function() {
@@ -133,8 +133,14 @@ if (!Object.prototype.unwatch) {
 
 my = (function(){
 	var my = {};
+	my.isUndefined = function(obj) {
+	    return typeof obj === "undefined";
+	}
+	my.isFunction = function(fn) {
+	    return fn && {}.toString.call(fn) === '[object Function]';
+	}
 	my.range = function(a, b, step) {
-	    if(b==undefined) {b=a; a=0;}
+	    if(my.isUndefined(b)) {b=a; a=0;}
 	    var A= [];
 	    for(var k=a; k<b; k+=(step||1)) A.push(k);
 	    return A;
@@ -240,55 +246,61 @@ my = (function(){
 	  my.promise() inspired to Q.js
 	 */
 	my.promise_counter = 0;
+	var promise = function() {
+	    this.code =  my.promise_counter++;
+	    this.resolved = false;
+	    this.rejected = false;
+	    this.obj = null;
+	    this.resolve = function(obj) {
+		this.resolved = true;
+		this.obj = obj;
+		my.trigger(this.code+':resolved',obj);
+	    };
+	    this.reject = function(obj) {
+		this.rejected = true;
+		this.obj = obj;
+		my.trigger(this.code+':rejected',obj);
+	    };
+	    this.then = function(f,g) {
+		f = f || function(obj){ return obj; };
+		if(g=='always') g=f;
+		g = g || function(e){ throw e; };
+		if(this.resolved) {
+		    return my.run(f,this.obj);
+		} else if(this.rejected) {
+		    return my.run(g,this.obj); 
+		} else {
+		    var d = my.promise(); 
+		    my.register(this.code+':resolved', function(obj) {
+			    try {
+				d.resolve(f(obj));
+			    } catch(e) {
+				d.reject(e);
+			    }
+			});
+		    my.register(this.code+':rejected', function(obj) {
+			    try {
+				d.resolve(g(obj));
+			    } catch(e) {
+				d.reject(e);
+			    }
+			});
+		    return d;
+		}
+	    };
+	};
 	my.run = function(fn,obj) {
 	    var d = my.promise();
-	    try { d.resolve(fn(obj)); } catch(e) { d.reject(e); }
+	    try { 
+		var ret = fn(obj);
+		if(my.isFunction(ret.then)) return ret;
+		d.resolve(ret); 		
+	    } catch(e) { 
+		d.reject(e); 
+	    }
 	    return d;
 	};
 	my.promise = function() {	    
-	    var promise = function() {
-		this.code =  my.promise_counter++;
-		this.resolved = false;
-		this.rejected = false;
-		this.obj = null;
-		this.resolve = function(obj) {
-		    this.resolved = true;
-		    this.obj = obj;
-		    my.trigger(this.code+':resolved',obj);
-		};
-		this.reject = function(obj) {
-		    this.rejected = true;
-		    this.obj = obj;
-		    my.trigger(this.code+':rejected',obj);
-		};
-		this.then = function(f,g) {
-		    f = f || function(obj){ return obj; };
-		    if(g=='always') g=f;
-		    g = g || function(e){ throw e; };
-		    if(this.resolved) {
-			return my.run(f,this.obj);
-		    } else if(this.rejected) {
-			return my.run(g,this.obj); 
-		    } else {
-			var d = my.promise(); 
-			my.register(this.code+':resolved', function(obj) {
-				try {
-				    d.resolve(f(obj));
-				} catch(e) {
-				    d.reject(e);
-				}
-			    });
-			my.register(this.code+':rejected', function(obj) {
-                                try {
-                                    d.resolve(g(obj));
-                                } catch(e) {
-                                    d.reject(e);
-                                }
-			    });
-			return d;
-		    }
-		};
-	    };
 	    return new promise();
 	};
 	my.sleep = function(dt) {
@@ -296,18 +308,13 @@ my = (function(){
 	    setTimeout(function(){d.resolve();},dt);
 	    return d;
 	};
-
-	function isFunction(fn) {
-	    return fn && {}.toString.call(fn) === '[object Function]';
-	}
-
 	my.model_counter = 0;
 	my.model = function(obj) {
 	    var code = my.model_counter++; 
 	    var name = 'model-change:{0}'.format([code]);
 	    delete my.events[name];
 	    for(var key in obj) {
-		if(!isFunction(obj[key])) {
+		if(!my.isFunction(obj[key])) {
 		    obj.watch(key,function(key, oldval, newval) {
 			    if(newval!=oldval) {
 				my.trigger(name, [key, oldval, newval]);
