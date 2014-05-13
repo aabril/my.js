@@ -51,7 +51,7 @@ Array.prototype.remove = function(v) {
 };
 String.prototype.capitalize = function() {
     if(this.length==0) return "";
-    return this.charAt(0).toUpperCase()+this.splice(1);
+    return this.charAt(0).toUpperCase()+this.slice(1);
 };
 String.prototype.title = function() {
     return this.split(' ').map(function(t){return r.capitalize();}).join(' ');
