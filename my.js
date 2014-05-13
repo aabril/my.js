@@ -54,7 +54,7 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase()+this.slice(1);
 };
 String.prototype.title = function() {
-    return this.split(' ').map(function(r){return r.capitalize();}).join(' ');
+    return this.split(' ').map(function(s){return s.capitalize();}).join(' ');
 };
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/gm,'');
